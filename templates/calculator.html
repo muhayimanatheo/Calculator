@@ -7,43 +7,87 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#0E0E0E] flex items-center justify-center">
-    <div class=" bg-[#1C1B21]" >
-        <div class=" rounded-b-md ">
+    <div class=" bg-[#1C1B21]">
+        <div class="rounded-b-md">
             <input type="text" id="display" class="w-full p-2 rounded-b-3xl h-40 bg-[#33313C]" readonly>
         </div> 
         <div class="gap-2 p-2">
-            <button class="p-6 text-white " >√</button>
-            <button class="p-6  text-white " >π</button>
-            <button class="p-6  text-white " >∧</button>
-            <button class="p-6  text-white " >!</button>
-            <button class="p-2  text-white rounded-full bg-[#25242C] h-12 w-12">∨</button>
+            <button class="p-6 text-white" onclick="sqrt()">√</button>
+            <button class="p-6 text-white" onclick="appendText('π')">π</button>
+            <button class="p-6 text-white" onclick="power()">∧</button>
+            <button class="p-6 text-white" onclick="factorial()">!</button>
+            <button class="p-2 text-white rounded-full bg-[#25242C] h-12 w-12" onclick="appendText('∨')">∨</button>
         </div>
-        <div class="grid grid-cols-4 gap-2  p-5">
+        <div class="grid grid-cols-4 gap-2 p-5">
 
-            <button class="p-4 bg-[#623B4E] text-white rounded-full" >AC</button>
-            <button class="p-4 bg-[#48455A] text-white rounded-full">()</button>
-            <button class="p-4 bg-[#48455A] text-white rounded-full" >%</button>
+            <button class="p-4 bg-[#623B4E] text-white rounded-full" onclick="clearDisplay()">AC</button>
+            <button class="p-4 bg-[#48455A] text-white rounded-full" onclick="appendText('(')">()</button>
+            <button class="p-4 bg-[#48455A] text-white rounded-full" onclick="appendText('%')">%</button>
             
-            <button class="p-4 bg-[#48455A] text-white rounded-full" >÷</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >7</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >8</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >9</button>
+            <button class="p-4 bg-[#48455A] text-white rounded-full" onclick="appendText('÷')">÷</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('7')">7</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('8')">8</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('9')">9</button>
 
-            <button class="p-4 bg-[#48455A] text-white rounded-full" >X</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >4</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >5</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >6</button>
+            <button class="p-4 bg-[#48455A] text-white rounded-full" onclick="appendText('X')">X</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('4')">4</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('5')">5</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('6')">6</button>
 
-            <button class="p-4 bg-[#48455A] text-white rounded-full" >-</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >1</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >2</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >3</button>
-            <button class="p-4 bg-[#48455A] text-white rounded-full" >+</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >0</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >.</button>
-            <button class="p-4 bg-[#25242C] text-white rounded-full" >⌫</button>
-            <button class="p-4 bg-[#473F7A] text-white rounded-full" >=</button>
+            <button class="p-4 bg-[#48455A] text-white rounded-full" onclick="appendText('-')">-</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('1')">1</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('2')">2</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('3')">3</button>
+            <button class="p-4 bg-[#48455A] text-white rounded-full" onclick="appendText('+')">+</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('0')">0</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="appendText('.')">.</button>
+            <button class="p-4 bg-[#25242C] text-white rounded-full" onclick="backspace()">⌫</button>
+            <button class="p-4 bg-[#473F7A] text-white rounded-full" onclick="calculate()">=</button>
         </div>
     </div>
+
+    <script>
+        function appendText(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function backspace() {
+            var display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                document.getElementById('display').value = eval(document.getElementById('display').value);
+            } catch (error) {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+
+        function sqrt() {
+            var display = document.getElementById('display');
+            display.value = Math.sqrt(eval(display.value));
+        }
+
+        function power() {
+            var display = document.getElementById('display');
+            display.value = Math.pow(eval(display.value), 2);
+        }
+
+        function factorial() {
+            var display = document.getElementById('display');
+            var num = eval(display.value);
+            var result = 1;
+            for (var i = 2; i <= num; i++) {
+                result *= i;
+            }
+            display.value = result;
+        }
+    </script>
 </body>
 </html>
+
